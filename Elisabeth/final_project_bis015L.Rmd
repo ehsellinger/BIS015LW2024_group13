@@ -27,7 +27,7 @@ conservatory <- read_csv("conservatory_data.csv") %>% clean_names()
 glimpse(conservatory)
 names(conservatory)
 ```
-
+±=
 4. Look at NAs
 ```{r}
 conservatory %>% 
