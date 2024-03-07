@@ -1,12 +1,21 @@
 # BIS15W2024_group13
-## (Title of Project)
+## UC Davis Conservatory Data Analysis
 by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 
-###Group Contributions:
-- 
-- 
-- 
-- This README.md file - Anastasia Karp
+### Group Contributions:
+- *Elisabeth Sellinger:*  
+  - Global map of plant regions
+  - Plant families by region app
+  
+- *Anastasia Karp:*  
+  - This README.md file
+  
+- *Elyse Carosa:*  
+  - 
 
-  ### Data:
+- *Carrie Lu:*  
+  - 
+
+
+### This repository includes:
