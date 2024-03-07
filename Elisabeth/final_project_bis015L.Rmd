@@ -9,32 +9,43 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-1. Load Libraries
+1.  Load Libraries
 ```{r}
 library(ggplot2)
 library(tidyverse)
 library(janitor)
 library(jpeg)
+library(shiny)
+library(shinydashboard)
+library(naniar)
+library(shinythemes)
+library(RColorBrewer)
+library(paletteer)
+library(ggthemes)
+library(dplyr)
+library(viridis)
 ```
 
-2. Read in data:
+2.  Read in data:
 ```{r}
 conservatory <- read_csv("conservatory_data.csv") %>% clean_names()
 ```
 
-3. Look at data
+3.  Look at data
 ```{r}
 glimpse(conservatory)
 names(conservatory)
 ```
-±=
-4. Look at NAs
+
+4.  Look at NAs
 ```{r}
 conservatory %>% 
   map_df(~ sum(is.na(.)))
 ```
 
-5. Clean data:
+####################### 
+
+MAPPING 5. Clean data:
 ```{r}
 conservatory_cleaned <- conservatory %>% 
   mutate(region = native_region) %>% 
@@ -51,27 +62,28 @@ conservatory_cleaned1 <- conservatory_cleaned %>%
   mutate(n_samples = n_samples)
 ```
 
-6. Call map data:
+6.  Call map data:
 ```{r}
 mapdata <- map_data("world") ##ggplot2
 ```
 
-7. Join datasets:
+7.  Join datasets:
 ```{r}
 mapdata <- left_join(mapdata, conservatory_cleaned1, by="region")
 ```
 
-8. Remove unneeded regions
+8.  Remove unneeded regions
 ```{r}
 # mapdata1<-mapdata %>% filter(!is.na(mapdata$n_samples))
 ```
 
-9. Plot it!
+9.  Plot it!
 ```{r}
 map1<-ggplot(mapdata, aes( x = long, y = lat, group=group)) +
   geom_polygon(aes(fill = n_samples), color = "black")
 map1
 ```
+
 10. Make it pretty:
 ```{r}
 map2 <- map1 + scale_fill_gradient(name = "Number of Samples", low = "lightblue", high =  "olivedrab", na.value = "grey90") +
@@ -85,3 +97,89 @@ map2 <- map1 + scale_fill_gradient(name = "Number of Samples", low = "lightblue"
 map2 
 ```
 
+########################### 
+
+APP FOR LOCATION AND FAMILY 1. See how many families there are
+```{r}
+conservatory %>% 
+  summarise(n_families <- n_distinct(family))
+```
+
+2.  Break it down by region, filter out any non-specifics
+```{r}
+conservatory_families <- conservatory %>% 
+  mutate("region" = native_region) %>% 
+  filter(region != "NA") %>% 
+  filter(region != "Multiple Countries") %>% 
+  filter(region != "Unknown") %>% 
+  filter(family != "Unknown")
+```
+
+3.  Test plot
+```{r}
+  conservatory_families %>% 
+  filter(region == "Brazil") %>% 
+  count(family) %>% 
+  ggplot(aes(x = reorder(family, n), y = n, fill = family)) +
+  geom_col() +
+  labs(x = "Family",
+       y = "Count") +
+  scale_fill_viridis(option = "mako", discrete=TRUE) +
+  guides(fill = FALSE) +
+  theme(text = element_text(family = "mono")) + 
+  coord_flip() +
+  theme(axis.title.y = element_text(margin = margin(r = 10))) +
+  theme(text = element_text(size = 12),
+  axis.title.x = element_text(face = "bold"),
+  axis.title.y = element_text(face = "bold"))
+```
+
+4.  Build app to show family counts by region
+```{r}
+ui <- fluidPage(    
+
+  theme = shinytheme("cerulean"),
+  
+  titlePanel("UC Davis Conservatory Data"), # give the page a title
+  
+  # generate a row with a sidebar
+  sidebarLayout(      
+    
+  # define the sidebar with one input
+  sidebarPanel(
+    selectInput("x", "Select Region", choices = unique(conservatory_families$region), hr())
+),  
+
+box(width = 5,
+  plotOutput("plot", width = "800px", height = "700px")
+) 
+) 
+) 
+
+server <- function(input, output, session) {
+  
+  session$onSessionEnded(stopApp) #automatically stop the app when we close it
+  
+  output$plot <- renderPlot({
+  
+  conservatory_families %>% 
+  filter(region == input$x) %>% 
+  count(family) %>% 
+  ggplot(aes(x = reorder(family, n), y = n, fill = family)) +
+  geom_col() +
+  labs(x = "Family",
+       y = "Count") +
+  scale_fill_viridis(option = "mako", discrete=TRUE) +
+  guides(fill = FALSE) +
+  theme(text = element_text(family = "mono")) + 
+  coord_flip() +
+  theme(axis.title.y = element_text(margin = margin(r = 10))) +
+  theme(text = element_text(size = 12),
+  axis.title.x = element_text(face = "bold"),
+  axis.title.y = element_text(face = "bold"))
+    
+    })
+}
+
+shinyApp(ui, server)
+```
