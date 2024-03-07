@@ -28,8 +28,8 @@ library(viridis)
 
 2.  Read in data:
 ```{r}
-conservatory <- read_csv("Elisabeth/conservatory_data.csv") %>% clean_names()
-conservation_status <- read_csv("Elyse/Biodiversity_Data.csv")
+conservatory <- read_csv("conservatory_data.csv") %>% clean_names()
+conservation_status <- read_csv("Biodiversity_Data.csv")
 ```
 
 3.  Look at data
@@ -50,7 +50,7 @@ MAPPING 5. Clean data:
 ```{r}
 conservatory_cleaned <- conservatory %>% 
   mutate(region = native_region) %>% 
-  select("accession_num", "region") %>% 
+  select("accession_num", "region", "family") %>% 
   filter(region != "NA") %>% 
   filter(region != "Multiple Countries") %>% 
   filter(region != "Unknown")
@@ -197,7 +197,7 @@ ui <- fluidPage(
     
   # define the sidebar with one input
   sidebarPanel(
-    selectInput("x", "Select Family", choices = unique(conservatory_families$region), hr())
+    selectInput("x", "Select Family", choices = unique(conservatory_families$family), hr())
 ),  
 
 box(width = 5,
@@ -212,7 +212,9 @@ server <- function(input, output, session) {
   
   output$plot <- renderPlot({
   
-    ggplot(mapdata, aes( x = long, y = lat, group=group)) +
+    mapdata %>% 
+    filter(family = input$x) %>% 
+    ggplot(aes( x = long, y = lat, group=group)) +
     geom_polygon(aes(fill = n_samples), color = "black") +
     scale_fill_gradient(name = "Number of Samples", low = "lightblue", high =  "olivedrab", na.value = "grey90") +
   theme(axis.text.x = element_blank(),
