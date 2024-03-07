@@ -28,7 +28,8 @@ library(viridis)
 
 2.  Read in data:
 ```{r}
-conservatory <- read_csv("conservatory_data.csv") %>% clean_names()
+conservatory <- read_csv("Elisabeth/conservatory_data.csv") %>% clean_names()
+conservation_status <- read_csv("Elyse/Biodiversity_Data.csv")
 ```
 
 3.  Look at data
@@ -183,3 +184,49 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
+
+```{r}
+ui <- fluidPage(    
+
+  theme = shinytheme("cerulean"),
+  
+  titlePanel("UC Davis Conservatory Data"), # give the page a title
+  
+  # generate a row with a sidebar
+  sidebarLayout(      
+    
+  # define the sidebar with one input
+  sidebarPanel(
+    selectInput("x", "Select Family", choices = unique(conservatory_families$region), hr())
+),  
+
+box(width = 5,
+  plotOutput("plot", width = "800px", height = "700px")
+) 
+) 
+) 
+
+server <- function(input, output, session) {
+  
+  session$onSessionEnded(stopApp) #automatically stop the app when we close it
+  
+  output$plot <- renderPlot({
+  
+    ggplot(mapdata, aes( x = long, y = lat, group=group)) +
+    geom_polygon(aes(fill = n_samples), color = "black") +
+    scale_fill_gradient(name = "Number of Samples", low = "lightblue", high =  "olivedrab", na.value = "grey90") +
+  theme(axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.ticks = element_blank(),
+        axis.title.y=element_blank(),
+        axis.title.x=element_blank(),
+        rect = element_blank()) +
+  labs(title = "UC Davis Conservatory Data by Region")
+    
+    })
+}
+
+shinyApp(ui, server)
+```
+
+
