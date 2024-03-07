@@ -12,10 +12,10 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
   - This README.md file
   
 - *Elyse Carosa:*  
-  - 
+  - Conservation status dataset
 
 - *Carrie Lu:*  
-  - 
+  - Conservatory data cleaning
 
 
 ### This repository includes:
