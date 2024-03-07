@@ -1,5 +1,5 @@
-#BIS15W2024_group13
-##(Title of Project)
+# BIS15W2024_group13
+## (Title of Project)
 by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 
@@ -9,4 +9,4 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - 
 - This README.md file - Anastasia Karp
 
-  ###Data:
+  ### Data:
