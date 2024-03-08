@@ -5,6 +5,7 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 ### Group Contributions:  
 - *Elisabeth Sellinger:*  
+  - Conservatory data cleaning
   - Global map of plant regions  
   - Plant families by region app  
   
@@ -33,3 +34,6 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 - *group13_plots.Rmd:*
    - R markdown file for plots
+   
+### Data:
+- Data were sourced from the UC Davis Botanical Conservatory
