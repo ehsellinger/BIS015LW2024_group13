@@ -21,7 +21,7 @@ library("plotly")
 ```
 2. Load the Data
 ```{r}
-conservatory <- read_csv("BIS015LW2024_group13/Elisabeth/conservatory_data.csv") %>% clean_names()
+conservatory <- read_csv("conservatory_data.csv") %>% clean_names()
 ```
 3. Clean the Data
 ```{r}
@@ -67,11 +67,13 @@ data3 <- data2 %>%
   group_by(family, region, longitude, latitude) %>% 
   summarize(n_distinct(family))
 ```
+
 10. Load the Conservation Data
 ```{r}
-plants <- read_csv("BIS015LW2024_group13/Elyse/Biodiversity_Data.csv") %>% clean_names() %>% 
+plants <- read_csv("Biodiversity_Data.csv") %>% clean_names() %>% 
   filter(category=="Plant")
 ```
+
 11. Clean the Data
 ```{r}
 split_names <- strsplit(plants$scientific_name, "\\s+")
@@ -92,6 +94,7 @@ conservatory_bind <- conservatory_cleaned %>%
 ```{r}
 pretty_data <- left_join(scientific_data, conservatory_bind, by="species")
 ```
+
 14. Cleaning the Data
 ```{r}
 pretty_data <- pretty_data %>% 
