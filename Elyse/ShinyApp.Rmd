@@ -40,8 +40,8 @@ mapdata <- map_data("world") ##ggplot2
 5. Clean the Data
 ```{r}
 data <- data.frame(country = c('Algeria', 'Angola', 'Argentina', 'Australia', "Belize", "Bolivia", "Brazil", "Cameroon", "Cayman Islands", "Chile", "China", "Colombia", "Comoros", "Costa Rica", "Cuba", "Dominica", "Ecuador", "Equatorial Guinea", "Ethiopia", "Fiji", "France", "Greece", "Guam", "Guatemala", "Guinea", "Honduras", "India", "Indonesia", "Israel", "Italy", "Jamaica", "Japan", "Kenya", "Lesotho", "Madagascar", "Malawi", "Malyasia", "Mali", "Mexico", "Micronesia", "Morocco", "Mozambique", "Namibia", "Nepal", "New Caledonia", "New Zealand", "Nicaragua", "Nigeria", "Oman", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Portugal", "Puerto Rico", "Rwanda", "Saudi Arabia", "Solomon Islands", "Somalia", "South Africa", "Spain", "Sri Lanka", "Suriname", "Taiwan", "Tanzania", "Thailand", "Trinidad", "Tunisia", "Turkey", "Uganda", "United Kingdom", "United States", "Uruguay", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"),
-                         longitude = c(-3, 13, -67, 124, -89, -69, -55, 8, -81, -75, 120, -70, 44, -83, -75, -61, -78, 11, 35, 177, 2, 23, 144, -89, -9, -88, 92, 118, 35, 16, -76, 129, 34, 27, 43, 33, 114,-9, -100, 158, -11, 35, 16, 80, 166, 169, -85, 5, 52, -79, 160, -54, -76, 118, -8, -65, 29, 50, 157, 42, 17, -2, 81, -56, 120, 35, 100, -61, 7, 29, 30, 0, -70, -57, -67, 106, 43, 23, 26),
-                         latitude = c(23.98125, -8.624707, -46.16679, -15.34033, 16.80898, -14.377246, -3.330664039, 4.290235, 19.37476, -50.65420, 35.86113, -2.55253911, -12.35654, 8.480323, 21.11104, 15.63311, -3.776855230, 1.7401856, 5.384082, -18.25488, 42.36211, 39.15830, 13.61465, 14.05010, 7.509961, 13.98735, 28.025732, -8.464258, 30.86020, 41.92812, 17.94043, 34.68657, -1.32255840, -29.84024, -22.69189, -13.959180, 1.4552733, 12.46465, 19.30938, 6.854638, 26.16269, -11.53213, -28.26455, 28.64961, -20.69873, -43.458984, 11.18447, 4.338574, 18.69649, 8.639209, -2.830176, -26.30879, -13.80283260, 10.035009, 41.92710, 18.14438, -2.766406, 18.73525, -8.713477, 4.3610840, -28.56269, 36.74546, 7.684473, 2.036475, 22.97490, -11.5820312, 13.431983, 10.53897, 34.41030, 36.69345, 2.40043926, 51.48447, 43.32744, -33.85859, 5.4475098, 10.921973, 12.83901, -12.956934, -17.91172))
+                         longitude = c(-3, 15, -67, 124, -89, -69, -55, 8, -81, -75, 120, -70, 44, -83, -75, -61, -78, 11, 35, 177, 2, 23, 144, -89, -9, -88, 92, 118, 35, 16, -73, 129, 37, 27, 43, 33, 114,-9, -100, 158, -11, 35, 16, 80, 166, 169, -85, 5, 52, -79, 160, -54, -76, 118, -8, -65, 29, 50, 157, 42, 23, -2, 81, -56, 120, 35, 100, -61, 7, 29, 30, 0, -100, -57, -67, 106, 43, 23, 26),
+                         latitude = c(23.98125, -8.624707, -35.16679, -25.34033, 16.80898, -14.377246, -3.330664039, 4.290235, 19.37476, -50.65420, 55.86113, -2.55253911, -12.35654, 8.480323, 21.11104, 15.63311, -3.776855230, 1.7401856, 5.384082, -18.25488, 42.36211, 39.15830, 13.61465, 14.05010, 7.509961, 13.98735, 28.025732, -8.464258, 30.86020, 41.92812, 17.94043, 34.68657, -1.32255840, -29.84024, -22.69189, -13.959180, 1.4552733, 12.46465, 19.30938, 6.854638, 26.16269, -11.53213, -28.26455, 28.64961, -20.69873, -43.458984, 11.18447, 5.338574, 18.69649, 8.639209, -2.830176, -26.30879, -13.80283260, 10.035009, 41.92710, 18.14438, -2.766406, 18.73525, -8.713477, 4.3610840, -28.56269, 36.74546, 7.684473, 2.036475, 22.97490, -13.5820312, 13.431983, 10.53897, 34.41030, 36.69345, 2.40043926, 51.48447, 43.32744, -33.85859, 5.4475098, 10.921973, 12.83901, -12.956934, -17.91172))
 ```
 
 6. Fixing the Name of a Column
@@ -182,3 +182,170 @@ server <- function(input, output) {
 
 shinyApp(ui, server)
 ```
+
+```{r}
+ui <- fluidPage(
+  titlePanel("Plants Around the World"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("x", "Select Plant Family", choices = unique(data3$family)),
+      uiOutput("region_selector")
+    ),
+    mainPanel(
+      titlePanel("Plant Family Locations Around the World"),
+      leafletOutput("myMap"),
+      h3("Status of Each Plant Species Within the Selected Family and Region"),
+      plotOutput("plot")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  output$myMap <- renderLeaflet({
+    leaflet(data = data3) %>%
+      addTiles() %>%
+      setView(lng = mean(data3$longitude), lat = mean(data3$latitude), zoom=2) %>%
+      addMarkers(~longitude, ~latitude, group = "myMarkers")
+  })
+
+  output$region_selector <- renderUI({
+    req(input$x)
+    regions <- unique(data3$region[data3$family == input$x])
+    selectInput("region", "Select Region", choices = c("All", regions))
+  })
+  
+  observeEvent(input$x, {
+    filtered_data <- data3[data3$family == input$x, ]
+    leafletProxy("myMap") %>%
+      clearMarkers() %>%
+      addMarkers(data = filtered_data,
+                 ~longitude,
+                 ~latitude,
+                 group = "myMarkers")
+  })
+  
+  output$plot <- renderPlot({
+    req(input$region)
+    if (input$region == "All") {
+      filtered_data <- data3[data3$family == input$x, ]
+    } else {
+      filtered_data <- data3[data3$family == input$x & data3$region == input$region, ]
+    }
+    ggplot(filtered_data, aes(x = genus, fill = endangered_status)) +
+      geom_bar() +
+      labs(x = "Genus",
+           y = "Count")
+  })
+}
+
+shinyApp(ui, server)
+
+```
+
+```{r}
+
+ui <- fluidPage(
+  titlePanel("Plants Around the World"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("x", "Select Plant Family", choices = unique(data3$family)),
+      uiOutput("region_selector")
+    ),
+    mainPanel(
+      titlePanel("Plant Family Locations Around the World"),
+      leafletOutput("myMap"),
+      h3("Status of Each Plant Species Within the Selected Family and Region"),
+      plotOutput("plot")
+    )
+  )
+)
+
+
+
+server <- function(input, output, session) {
+  
+  output$myMap <- renderLeaflet({
+    leaflet(data = data3) %>%
+      addTiles() %>%
+      setView(lng = mean(data3$longitude), lat = mean(data3$latitude), zoom=2) %>%
+      addMarkers(~longitude, ~latitude, group = "myMarkers")
+  })
+
+  output$region_selector <- renderUI({
+    req(input$x)
+    regions <- c("All", unique(data3$region[data3$family == input$x]))
+    selectInput("region", "Select Region", choices = regions)
+  })
+  
+  observeEvent(input$x, {
+    filtered_data <- data3[data3$family == input$x, ]
+    leafletProxy("myMap") %>%
+      clearMarkers() %>%
+      addMarkers(data = filtered_data,
+                 ~longitude,
+                 ~latitude,
+                 group = "myMarkers")
+  })
+  
+  observeEvent(input$region, {
+    req(input$x, input$region)
+    
+    if (!is.null(input$region)) {
+      if (input$region == "All") {
+        regions <- unique(data3$region[data3$family == input$x])
+      } else {
+        regions <- input$region
+      }
+      
+      plot_list <- lapply(regions, function(region) {
+        filtered_data <- if (region == "All") {
+          data3[data3$family == input$x, ]
+        } else {
+          data3[data3$family == input$x & data3$region == region, ]
+        }
+        
+        plotOutput(paste0("plot_", region), height = "300px")
+      })
+      
+      output$plots <- renderUI({
+        do.call(tagList, plot_list)
+      })
+    }
+  })
+  
+  observeEvent(input$region, {
+    req(input$x, input$region)
+    
+    regions <- if (input$region == "All") {
+      unique(data3$region[data3$family == input$x])
+    } else {
+      input$region
+    }
+    
+    for (region in regions) {
+      output[[paste0("plot_", region)]] <- renderPlot({
+        filtered_data <- if (input$region == "All") {
+          data3[data3$family == input$x, ]
+        } else {
+          data3[data3$family == input$x & data3$region == region, ]
+        }
+        
+        ggplot(filtered_data, aes(x = genus)) +
+          geom_bar() +
+          labs(x = "Genus",
+               y = "Count") +
+          ggtitle(paste("Region:", region))
+      })
+    }
+  })
+}
+
+shinyApp(ui, server)
+```
+
+```{r}
+
+```
+
+
