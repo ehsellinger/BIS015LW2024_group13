@@ -70,7 +70,7 @@ data3 <- data2 %>%
 
 10. Load the Conservation Data
 ```{r}
-plants <- read_csv("Biodiversity_Data.csv") %>% clean_names() %>% 
+plants <- read_csv("conservation_data_NY.csv") %>% clean_names() %>% 
   filter(category=="Plant")
 ```
 
@@ -94,6 +94,21 @@ conservatory_bind <- conservatory_cleaned %>%
 ```{r}
 pretty_data <- left_join(scientific_data, conservatory_bind, by="species")
 ```
+```{r}
+more_data <- left_join(data3, correct_data, join_by(family))
+```
+
+```{r}
+more <- distinct(more_data) %>% 
+  filter(!genus=="NA",
+         !species=="NA",
+         !endangered_status=="NA",
+         !family=="NA",
+         !latitude=="NA",
+         !longitude=="NA")
+```
+
+
 
 14. Cleaning the Data
 ```{r}
@@ -216,7 +231,7 @@ server <- function(input, output, session) {
   })
   
   observeEvent(input$x, {
-    filtered_data <- data3[data3$family == input$x, ]
+    filtered_data <- more[more$family == input$x, ]
     leafletProxy("myMap") %>%
       clearMarkers() %>%
       addMarkers(data = filtered_data,
@@ -225,26 +240,34 @@ server <- function(input, output, session) {
                  group = "myMarkers")
   })
   
-  output$plot <- renderPlot({
+  observeEvent(input$region, {
     req(input$region)
     if (input$region == "All") {
-      filtered_data <- data3[data3$family == input$x, ]
+      filtered_data <- more[more$family == input$x, ]
     } else {
-      filtered_data <- data3[data3$family == input$x & data3$region == input$region, ]
+      filtered_data <- more[more$family == input$x & more$region == input$region, ]
     }
-    ggplot(filtered_data, aes(x = genus, fill = endangered_status)) +
-      geom_bar() +
-      labs(x = "Genus",
-           y = "Count")
+    output$plot <- renderPlot({
+      ggplot(filtered_data, aes(x = genus, fill = endangered_status)) +
+        geom_bar() +
+        labs(x = "Genus",
+             y = "Count")
+    })
   })
 }
 
 shinyApp(ui, server)
 
+
 ```
 
 ```{r}
+more %>% 
+  filter(family=="Aceraceae")
+```
 
+
+```{r}
 ui <- fluidPage(
   titlePanel("Plants Around the World"),
   sidebarLayout(
@@ -261,8 +284,6 @@ ui <- fluidPage(
   )
 )
 
-
-
 server <- function(input, output, session) {
   
   output$myMap <- renderLeaflet({
@@ -274,12 +295,12 @@ server <- function(input, output, session) {
 
   output$region_selector <- renderUI({
     req(input$x)
-    regions <- c("All", unique(data3$region[data3$family == input$x]))
-    selectInput("region", "Select Region", choices = regions)
+    regions <- unique(data3$region[data3$family == input$x])
+    selectInput("region", "Select Region", choices = c("All", regions))
   })
   
   observeEvent(input$x, {
-    filtered_data <- data3[data3$family == input$x, ]
+    filtered_data <- more[more$family == input$x, ]
     leafletProxy("myMap") %>%
       clearMarkers() %>%
       addMarkers(data = filtered_data,
@@ -288,63 +309,23 @@ server <- function(input, output, session) {
                  group = "myMarkers")
   })
   
-  observeEvent(input$region, {
-    req(input$x, input$region)
-    
-    if (!is.null(input$region)) {
-      if (input$region == "All") {
-        regions <- unique(data3$region[data3$family == input$x])
-      } else {
-        regions <- input$region
-      }
-      
-      plot_list <- lapply(regions, function(region) {
-        filtered_data <- if (region == "All") {
-          data3[data3$family == input$x, ]
-        } else {
-          data3[data3$family == input$x & data3$region == region, ]
-        }
-        
-        plotOutput(paste0("plot_", region), height = "300px")
-      })
-      
-      output$plots <- renderUI({
-        do.call(tagList, plot_list)
-      })
-    }
-  })
+ output$plot <- renderPlot({
+  req(input$region)
   
-  observeEvent(input$region, {
-    req(input$x, input$region)
-    
-    regions <- if (input$region == "All") {
-      unique(data3$region[data3$family == input$x])
-    } else {
-      input$region
-    }
-    
-    for (region in regions) {
-      output[[paste0("plot_", region)]] <- renderPlot({
-        filtered_data <- if (input$region == "All") {
-          data3[data3$family == input$x, ]
-        } else {
-          data3[data3$family == input$x & data3$region == region, ]
-        }
-        
-        ggplot(filtered_data, aes(x = genus)) +
-          geom_bar() +
-          labs(x = "Genus",
-               y = "Count") +
-          ggtitle(paste("Region:", region))
-      })
-    }
-  })
+  if (input$region == "All") {
+    filtered_data <- more[more$family == input$x, ]
+  } else {
+    filtered_data <- more[more$family == input$x & more$region == input$region, ]
+  }
+  
+  ggplot(filtered_data, aes(x = genus, fill = endangered_status)) +
+    geom_bar(position="dodge") +
+    labs(x = "Genus",
+         y = "Count")
+})
 }
 
 shinyApp(ui, server)
-```
-
-```{r}
 
 ```
 
