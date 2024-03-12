@@ -7,33 +7,42 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *Elisabeth Sellinger:*  
   - Conservatory data cleaning
   - Global map of plant regions  
-  - Plant families by region app  
+  - Shiny app #1
+  - Slides
+  - Repository Organization
   
 - *Anastasia Karp:*  
   - This README.md file  
+  - Conservatory data cleaning
   
 - *Elyse Carosa:*  
-  - Conservation status dataset  
+  - Conservation status dataset (NY)
+  - Conservatory data cleaning  
+  - Shiny app #2
 
 - *Carrie Lu:*  
+  - Conservation status dataset (GLOBAL)
   - Conservatory data cleaning  
+  - Shiny app #3
 
 
-### This repository includes:
-- *Data:*  
-  - contains all raw data for the project
-  
+### This repository includes:  
 - *README*:  
   - gives overview of repository  
   
-- *Apps*:
-  - R scripts for app  
+- *Shiny App #1*:
+  - data used for app
+  - markdown file
+  - map image
+  - app R script
   
-- *group13_app.Rmd:*  
+- *Shiny App #2*  
+  - data used for app
   - R markdown file for app  
 
-- *group13_plots.Rmd:*
-   - R markdown file for plots
+- *Shiny App #3*
+  - data used for app
+  - R markdown file for app
    
 ### Data:
 - Data were sourced from the UC Davis Botanical Conservatory
