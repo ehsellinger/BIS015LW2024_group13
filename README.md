@@ -7,7 +7,7 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *Elisabeth Sellinger:*  
   - Conservatory data cleaning
   - Global map of plant regions  
-  - Shiny app #1
+  - Shiny app #1 species barplot
   - Slides
   - Repository Organization
   
@@ -18,12 +18,12 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *Elyse Carosa:*  
   - Conservation status dataset (NY)
   - Conservatory data cleaning  
-  - Shiny app #2
+  - Shiny app #1 species map
 
 - *Carrie Lu:*  
   - Conservation status dataset (GLOBAL)
   - Conservatory data cleaning  
-  - Shiny app #3
+  - Shiny app #2
 
 
 ### This repository includes:  
@@ -40,9 +40,6 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
   - Data used for app
   - R markdown file for app  
 
-- *Shiny App #3:*  
-  - Data used for app
-  - R markdown file for app
   
 - *Raw Data:*  
   - Original raw data files used  
@@ -52,4 +49,4 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
    
 ### Data:
-- Data were sourced from the UC Davis Botanical Conservatory
+- Data were sourced from the UC Davis Botanical Conservatory, the New York State Conservation Status Database, and the Global Species Database.
