@@ -27,22 +27,25 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 
 ### This repository includes:  
-- *README*:  
+- *README:*  
   - gives overview of repository  
   
-- *Shiny App #1*:
+- *Shiny App #1:*  
   - data used for app
   - markdown file
   - map image
   - app R script
   
-- *Shiny App #2*  
+- *Shiny App #2:*  
   - data used for app
   - R markdown file for app  
 
-- *Shiny App #3*
+- *Shiny App #3:*  
   - data used for app
   - R markdown file for app
+  
+- *Raw Data:*
+  - original raw data files used
    
 ### Data:
 - Data were sourced from the UC Davis Botanical Conservatory
