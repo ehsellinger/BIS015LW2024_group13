@@ -28,24 +28,24 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 ### This repository includes:  
 - *README:*  
-  - gives overview of repository  
+  - Gives overview of repository  
   
 - *Shiny App #1:*  
-  - data used for app
-  - markdown file
-  - map image
-  - app R script
+  - Data used for app
+  - R markdown file for app
+  - Map image
+  - App R script
   
 - *Shiny App #2:*  
-  - data used for app
+  - Data used for app
   - R markdown file for app  
 
 - *Shiny App #3:*  
-  - data used for app
+  - Data used for app
   - R markdown file for app
   
 - *Raw Data:*  
-  - original raw data files used  
+  - Original raw data files used  
     - [Conservatory Data](https://greenhouse.ucdavis.edu/conservatory/)
     - [Conservation Status (NY)](https://data.ny.gov/w/6x7f-k6wi/caer-yrtv?cur=M6Y7gMqSuwD&from=root) 
     - [Conservation Status (GLOBAL)](https://datacatalog.worldbank.org/search/dataset/0063384/Global-Species-Database) 
