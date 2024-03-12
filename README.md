@@ -44,11 +44,11 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
   - data used for app
   - R markdown file for app
   
-- *Raw Data:*
-  - original raw data files used
-  - [Conservatory Data](https://greenhouse.ucdavis.edu/conservatory/)
-  - [Conservation Status (NY)](https://data.ny.gov/w/6x7f-k6wi/caer-yrtv?cur=M6Y7gMqSuwD&from=root) 
-  - [Conservation Status (GLOBAL)](https://datacatalog.worldbank.org/search/dataset/0063384/Global-Species-Database) 
+- *Raw Data:*  
+  - original raw data files used  
+    - [Conservatory Data](https://greenhouse.ucdavis.edu/conservatory/)
+    - [Conservation Status (NY)](https://data.ny.gov/w/6x7f-k6wi/caer-yrtv?cur=M6Y7gMqSuwD&from=root) 
+    - [Conservation Status (GLOBAL)](https://datacatalog.worldbank.org/search/dataset/0063384/Global-Species-Database) 
 
    
 ### Data:
