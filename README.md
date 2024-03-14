@@ -14,6 +14,7 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *Anastasia Karp:*  
   - This README.md file  
   - Conservatory data cleaning
+  - Tried to add a .jpeg image to map_family_app in Shiny App #1
   
 - *Elyse Carosa:*  
   - Conservation status dataset (NY)
