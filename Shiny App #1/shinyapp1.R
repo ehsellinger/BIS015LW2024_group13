@@ -106,10 +106,9 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       selectInput("x", "Select Plant Family", choices = unique(more$family)),
-      uiOutput("region_selector"),
+      uiOutput("genus_selector"),
     ),
     mainPanel(
-      img(src = "conservation_data_globalmap.png", height = 450, width = 800),
       titlePanel("Plant Family Locations Around the World"),
       leafletOutput("myMap"),
       h3("Status of Each Plant Species Within the Selected Family and Region"),
@@ -127,10 +126,10 @@ server <- function(input, output, session) {
       addMarkers(~longitude, ~latitude, group = "myMarkers")
   })
   
-  output$region_selector <- renderUI({
+  output$genus_selector <- renderUI({
     req(input$x)
-    regions <- unique(more$region[more$family == input$x])
-    selectInput("region", "Select Region", choices = c("All", regions),
+    genus <- unique(more$genus[more$family == input$x])
+    selectInput("genus", "Select Genus", choices = c("All", genus),
                 theme(
                   text = element_text(family = "mono", size = 20)
                 )
@@ -148,12 +147,12 @@ server <- function(input, output, session) {
   })
   
   output$plot <- renderPlot({
-    req(input$region)
+    req(input$genus)
     
-    if (input$region == "All") {
+    if (input$genus == "All") {
       filtered_data <- more[more$family == input$x, ]
     } else {
-      filtered_data <- more[more$family == input$x & more$region == input$region, ]
+      filtered_data <- more[more$family == input$x & more$genus == input$genus, ]
     }
     
     ggplot(filtered_data, aes(x = species, fill = endangered_status)) +
@@ -166,12 +165,10 @@ server <- function(input, output, session) {
       theme(
         text = element_text(family = "mono", size = 20),  # Adjust the size of the labels
         axis.title.x = element_text(face = "bold"),
-        axis.title.y = element_text(face = "bold"),
-        axis.text.x = element_text(angle = 60, hjust = 1)  # Rotate x-axis labels by 90 degrees
+        axis.title.y = element_text(face = "bold")
       )
     
   })
 }
-
 
 shinyApp(ui, server)
