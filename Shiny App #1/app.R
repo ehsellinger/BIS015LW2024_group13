@@ -99,6 +99,7 @@ more <- distinct(more_data) %>%
          !latitude=="NA",
          !longitude=="NA")
 
+
 ui <- fluidPage(
   theme = shinytheme("journal"),  # Use the 'journal' theme from shinythemes package
   titlePanel("UC Davis Conservatory Data"),
