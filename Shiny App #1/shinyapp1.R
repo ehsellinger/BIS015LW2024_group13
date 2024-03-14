@@ -109,7 +109,6 @@ ui <- fluidPage(
       uiOutput("genus_selector"),
     ),
     mainPanel(
-      img(src = "conservation_data_globalmap.png", height = 450, width = 800),
       titlePanel("Plant Family Locations Around the World"),
       leafletOutput("myMap"),
       h3("Status of Each Plant Species Within the Selected Family and Region"),
@@ -171,6 +170,5 @@ server <- function(input, output, session) {
     
   })
 }
-
 
 shinyApp(ui, server)

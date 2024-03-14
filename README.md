@@ -14,7 +14,7 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *Anastasia Karp:*  
   - This README.md file 
   - Conservatory data cleaning  
-  - Tried to add a .jpeg image to map+family_app.R in Shiny App #1  
+  - Added a .jpeg image to map+family_app.R in Shiny App #1  
   - Slides editing  
   
 - *Elyse Carosa:*  
