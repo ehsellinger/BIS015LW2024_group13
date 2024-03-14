@@ -32,6 +32,9 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 - *README:*  
   - Gives overview of repository  
   
+- *BIS015L Final Project Slides:* 
+  - Slideshow in class
+  
 - *Shiny App #1:*  
   - Data used for app  
   - R markdown file for app  
