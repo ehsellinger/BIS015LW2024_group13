@@ -5,26 +5,27 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
 
 ### Group Contributions:  
 - *Elisabeth Sellinger:*  
-  - Conservatory data cleaning
+  - Conservatory data cleaning  
   - Global map of plant regions  
-  - Shiny app #1 species barplot
-  - Slides
-  - Repository Organization
+  - Shiny app #1 species barplot  
+  - Slides  
+  - Repository Organization  
   
 - *Anastasia Karp:*  
-  - This README.md file  
-  - Conservatory data cleaning
-  - Tried to add a .jpeg image to map_family_app in Shiny App #1
+  - This README.md file 
+  - Conservatory data cleaning  
+  - Tried to add a .jpeg image to map+family_app.R in Shiny App #1  
+  - Slides editing  
   
 - *Elyse Carosa:*  
-  - Conservation status dataset (NY)
+  - Conservation status dataset (NY)  
   - Conservatory data cleaning  
-  - Shiny app #1 species map
+  - Shiny app #1 species map  
 
 - *Carrie Lu:*  
-  - Conservation status dataset (GLOBAL)
+  - Conservation status dataset (GLOBAL)  
   - Conservatory data cleaning  
-  - Shiny app #2
+  - Shiny app #2 conservation status
 
 
 ### This repository includes:  
@@ -32,14 +33,16 @@ by Anastasia Karp, Elisabeth Sellinger, Elyse Carosa, and Carrie Lu
   - Gives overview of repository  
   
 - *Shiny App #1:*  
-  - Data used for app
-  - R markdown file for app
-  - Map image
-  - App R script
+  - Data used for app  
+  - R markdown file for app  
+  - Map image  
+  - App R script  
   
 - *Shiny App #2:*  
-  - Data used for app
+  - Data used for app  
   - R markdown file for app  
+  - Map image  
+  - App R script  
 
   
 - *Raw Data:*  
