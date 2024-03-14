@@ -173,8 +173,8 @@ more <- distinct(more_data) %>%
 16. Make the ShinyApp
 ```{r}
 ui <- fluidPage(
-  theme = shinytheme("journal"),  # Use the 'journal' theme from shinythemes package
-  titlePanel("UC Davis Conservatory Data"),
+  theme = shinytheme("journal"),  # Use the 'cerulean' theme from shinythemes package
+  titlePanel("Plants Around the World"),
   sidebarLayout(
     sidebarPanel(
       selectInput("x", "Select Plant Family", choices = unique(more$family)),
@@ -246,87 +246,5 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
-
-```{r}
-more %>% 
-  group_by(genus, family) %>% 
-  summarize(n_distinct(genus))
-```
-
-
-```{r}
-ui <- fluidPage(
-  theme = shinytheme("journal"),  # Use the 'journal' theme from shinythemes package
-  titlePanel("UC Davis Conservatory Data"),
-  sidebarLayout(
-    sidebarPanel(
-      selectInput("x", "Select Plant Family", choices = unique(more$family)),
-      uiOutput("genus_selector"),
-    ),
-    mainPanel(
-      titlePanel("Plant Family Locations Around the World"),
-      leafletOutput("myMap"),
-      h3("Status of Each Plant Species Within the Selected Family and Genus"),
-      plotOutput("plot")
-    )
-  )
-)
-
-server <- function(input, output, session) {
-  
-  output$myMap <- renderLeaflet({
-    leaflet(data = more) %>%
-      addTiles() %>%
-      setView(lng = mean(more$longitude), lat = mean(more$latitude), zoom=2) %>%
-      addMarkers(~longitude, ~latitude, group = "myMarkers")
-  })
-
-  output$genus_selector <- renderUI({
-    req(input$x)
-    genus <- unique(more$genus[more$family == input$x])
-    selectInput("genus", "Select Genus", choices = c("All", genus),
-                theme(
-      text = element_text(family = "mono", size = 20)
-                )
-    )
-  })
-  
-  observeEvent(input$x, {
-    filtered_data <- more[more$family == input$x, ]
-    leafletProxy("myMap") %>%
-      clearMarkers() %>%
-      addMarkers(data = filtered_data,
-                 ~longitude,
-                 ~latitude,
-                 group = "myMarkers")
-  })
-  
-  output$plot <- renderPlot({
-  req(input$genus)
-  
-  if (input$genus == "All") {
-    filtered_data <- more[more$family == input$x, ]
-  } else {
-    filtered_data <- more[more$family == input$x & more$genus == input$genus, ]
-  }
-  
- ggplot(filtered_data, aes(x = species, fill = endangered_status)) +
-  geom_bar(position="dodge") +
-  labs(x = "Species",
-       y = "Count",
-       fill = "Endangered Status") +
-  scale_fill_manual(values = c("Endangered" = "lightblue2", "Vulnerable" = "lightblue3", "Uncommon" = "lightblue4", "Secure" = "lightcyan", "Between Critically Endangered and Vulnerable" = "lightcyan2", "Probably Critically Endangered" = "lightcyan3", "Probably Endangered"= "lightcyan4", "Between Uncommon and Secure" = "lightgray", "Species is Between Uncommon and Secure, Subspecies is Uncommon" = "lightsteelblue3", "Probably Secure" = "lightsteelblue4", "Species is Secure, Subspecies is Critically Endangered" = "mediumpurple1", "Species is Secure, Subspecies is Vulnerable" = "mediumslateblue", "Species is Secure, Subspecies is Between Uncommon and Vulnerable" = "mediumseagreen", "Species is Secure, Subspecies is Between Secure and Vulnerable" = "mediumaquamarine", "Species is Secure, Subspecies is Uncommon" = "mediumturquoise", "Species is Secure, Subspecies is Probably Uncommon" = "mintcream", "Species is Secure, Subspecies is Between Secure and Uncommon" = "mistyrose", "Species is Secure, Subspecies is Probably Secure"= "maroon")) +  # Set colors for each level
-  facet_wrap(~ genus) +  # Facet by genus
-  theme(
-    text = element_text(family = "mono", size = 20),  # Adjust the size of the labels
-    axis.title.x = element_text(face = "bold"),
-    axis.title.y = element_text(face = "bold")
-)
-})
-}
-
-shinyApp(ui, server)
-```
-
 
 
